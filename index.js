@@ -281,6 +281,34 @@ const sendResetPasswordEmail = async (email, resetToken) => {
   }
 };
 
+// Define a schema and model for visit data
+const visitSchema = new mongoose.Schema({
+  count: Number,
+});
+
+const Visit = mongoose.model("Visit", visitSchema);
+
+// Middleware to increment the visit count
+app.use(async (req, res, next) => {
+  let visit = await Visit.findOne();
+  if (!visit) {
+    visit = new Visit({ count: 1 });
+  } else {
+    visit.count++;
+  }
+  await visit.save();
+  next();
+});
+
+app.get("/api/visit-count", async (req, res) => {
+  const visit = await Visit.findOne();
+  if (visit) {
+    res.json({ count: visit.count });
+  } else {
+    res.status(404).json({ error: "Visit count not found" });
+  }
+});
+
 app.post("/api/users/reset-password", async (req, res) => {
   const { email } = req.body;
   try {
