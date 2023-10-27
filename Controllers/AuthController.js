@@ -104,7 +104,6 @@ module.exports.JobPost = async (req, res, next) => {
       success: true,
       jobPost,
     });
-    console.log(jobPost);
     next();
   } catch (error) {
     console.log(error);

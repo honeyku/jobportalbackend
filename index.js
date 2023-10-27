@@ -242,7 +242,7 @@ app.post("/reset", (req, res) => {
       console.error("Error sending email:", error);
       res.status(500).json({ success: false, error: "Failed to send email" });
     } else {
-      console.log("Email sent: " + info.response);
+      // console.log("Email sent: " + info.response);
       res.json({ success: true });
     }
   });
